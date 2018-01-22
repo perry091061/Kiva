@@ -12,13 +12,13 @@ class Network
 {
     let kivaUrl = "https://api.kivaws.org/v1/loans/newest.json"
     
-    init()
+    init(callback:@escaping ([KivaLoan])->Void)
     {
         
-        connect()
+        connect(callback: callback)
     }
     
-    func connect()
+    func connect(callback:@escaping ([KivaLoan])->Void)
     {
         if let url = URL(string: kivaUrl)
         {
@@ -34,8 +34,8 @@ class Network
                 {
                     if let data = data
                     {
-                        let _ = self.parseJson(data: data)
-                        //callback(loan)
+                        let loans = self.parseJson(data: data)
+                        callback(loans)
                     }
                 }
             }).resume()
