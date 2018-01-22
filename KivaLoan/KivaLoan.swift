@@ -14,7 +14,10 @@ class KivaLoan
     var countryLabel:String = ""
     var useLabel:String = ""
     var amountLabel:Int = 0 
- 
+}
+
+extension KivaLoan
+{
     func toString() ->String
     {
         return "\(nameLabel) : \(countryLabel) : \(useLabel) : \(amountLabel)"
