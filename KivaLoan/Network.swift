@@ -34,8 +34,12 @@ class Network
                 {
                     if let data = data
                     {
-                        let loans = self.parseJson(data: data)
-                        callback(loans)
+                        
+                        OperationQueue.main.addOperation {
+                            let loans = self.parseJson(data: data)
+                            callback(loans)
+                        }
+                        
                     }
                 }
             }).resume()
@@ -67,9 +71,9 @@ class Network
             }
             
             print(kivaLoans.map({
-                
-                return $0.toString() 
-                
+
+                return $0.toString()
+
             }))
         
         }catch
