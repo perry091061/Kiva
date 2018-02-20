@@ -49,7 +49,7 @@ struct KivaLoan : Decodable
     var posted_date:String?
     var sector:String?
     var status:String?
-    var tags:[String]?
-    var use:[TagData]?
+    var tags:[TagData]?
+    var use:String?
     
 }

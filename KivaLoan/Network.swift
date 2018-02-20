@@ -50,12 +50,14 @@ class Network : Codable
     func parseJson(data:Data) -> [KivaLoan]
     {
          
+        var kivaLoans : [KivaLoan]?
         
         do{
             let decoder = JSONDecoder()
-            var kivaLoans = try decoder.decode(Loans.self, from: data)
+            guard let kivaLoan = try decoder.decode(Loans.self, from: data).loans
+                else { return [] }
             
-            print(kivaLoans)
+            return kivaLoan
         
         }catch
         {
