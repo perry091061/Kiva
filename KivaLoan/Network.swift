@@ -8,14 +8,14 @@
 
 import UIKit
 
-class Network
+class Network : Codable
 {
     let kivaUrl = "https://api.kivaws.org/v1/loans/newest.json"
     
     init(callback:@escaping ([KivaLoan])->Void)
     {
         
-        connect(callback: callback)
+        connect(callback: callback )
     }
     
     func connect(callback:@escaping ([KivaLoan])->Void)
@@ -32,15 +32,14 @@ class Network
                 
                 if (response as! HTTPURLResponse).statusCode == 200
                 {
-                    if let data = data
-                    {
-                        
+                        guard let data = data
+                        else { return }
+                    
                         OperationQueue.main.addOperation {
                             let loans = self.parseJson(data: data)
                             callback(loans)
                         }
-                        
-                    }
+                
                 }
             }).resume()
             
@@ -50,37 +49,19 @@ class Network
      
     func parseJson(data:Data) -> [KivaLoan]
     {
-        var json: Dictionary = Dictionary<AnyHashable, AnyObject>()
-        var kivaLoans = [KivaLoan]()
+         
+        
         do{
-            json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! Dictionary<AnyHashable, AnyObject>
+            let decoder = JSONDecoder()
+            var kivaLoans = try decoder.decode(Loans.self, from: data)
             
-            let loans = json["loans"] as! [AnyObject]
-            for jsonLoan in loans
-            {
-                let kivaLoan = KivaLoan()
-                kivaLoan.nameLabel = jsonLoan["name"] as! String
-                let location = jsonLoan["location"] as! [String:AnyObject]
-                
-                kivaLoan.countryLabel = location["country"] as! String
-                kivaLoan.useLabel = jsonLoan["use"] as! String
-            
-                kivaLoan.amountLabel = jsonLoan["loan_amount"] as! Int
-                
-                kivaLoans.append(kivaLoan)
-            }
-            
-            print(kivaLoans.map({
-
-                return $0.toString()
-
-            }))
+            print(kivaLoans)
         
         }catch
         {
-            print("Conversion error")
+            print("Conversion error \(error)")
             return []
         }
-        return kivaLoans
+        return []
     }
 }

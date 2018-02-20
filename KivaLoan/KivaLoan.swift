@@ -6,20 +6,50 @@
 //  Copyright © 2018 AppCoda. All rights reserved.
 //
 
-
-
-class KivaLoan
-{
-    var nameLabel: String = ""
-    var countryLabel:String = ""
-    var useLabel:String = ""
-    var amountLabel:Int = 0 
+struct ImageData : Decodable {
+    var id:Int?
+    var template_id:Int?
 }
 
-extension KivaLoan
+struct CountryData : Decodable {
+    var country:String?
+    var country_code:String?
+    var geo:GeoData?
+}
+
+struct GeoData : Decodable {
+    var level:String?
+    var pairs:String?
+    var type:String?
+}
+struct LanguageData : Decodable {
+    var languages:[String]?
+}
+struct TagData : Decodable {
+    var name:String?
+}
+
+struct KivaLoan : Decodable
 {
-    func toString() ->String
-    {
-        return "\(nameLabel) : \(countryLabel) : \(useLabel) : \(amountLabel)"
-    }
+    
+    var activity: String?
+    var basket_amount: Int?
+    var bonus_credit_eligibility:Bool?
+    var borrower_count:Int?
+    var description:LanguageData?
+    var funded_amount:Int?
+    var id:Int?
+    var image:ImageData?
+    var lender_count:Int?
+    var loan_amount:Int?
+    var location:CountryData?
+    var name:String?
+    var partner_id:Int?
+    var planned_expiration_date:String?
+    var posted_date:String?
+    var sector:String?
+    var status:String?
+    var tags:[String]?
+    var use:[TagData]?
+    
 }
