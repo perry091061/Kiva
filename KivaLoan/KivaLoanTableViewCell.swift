@@ -22,5 +22,13 @@ class KivaLoanTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        nameLabel.text = ""
+        countryLabel.text = ""
+        useLabel.text = ""
+        amountLabel.text = ""
+    }
 
 }
